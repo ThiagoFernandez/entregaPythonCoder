@@ -1,0 +1,22 @@
+{
+    "users": {
+        "thiago": {
+            "dni": "gAAAAABpZGRpeQ25ys8wDezZU5_XR7dlguN3TImD2dKao7QWng5PQZA2Kh59Z2kvgeyXPuwYoVB0Ju6gArOOouWy7CWcK3ndfA==",
+            "email": "thiagosecundario101@gmail.com",
+            "password": "e941e808846e10729bc2f5f87fb6c0fc6ae4e734a248b904dadc5fd0bbfd45c2",
+            "ban": false,
+            "banUntil": "2026-01-12T16:48:43.477106",
+            "phrases": [
+                "Session closed successfully.",
+                "Exiting without errors. Impressive.",
+                "Take care and come back soon!",
+                "The program rests now. Gently.",
+                "Clean exit. Very professional of you.",
+                "Alright, I'll miss you (a little).",
+                "Touch grass now",
+                "ByeNigga",
+                "See you next time!"
+            ]
+        }
+    }
+}
