@@ -91,9 +91,7 @@ def input_valid_email() ->str:
 
 
 def verify_email_code(email: str) -> bool:
-    code = secrets.randbelow(9999)
-    if code < 1000:
-        code += 1000
+    code = secrets.randbelow(9000) + 1000   # uniforme 1000–9999
     sendEmail("Confirmation code", f"Your code: {code}", email) # igual pongo el code aca para q se vea pero el standar es q no se vea el codigo
 
     start = datetime.now()
