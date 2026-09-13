@@ -1,0 +1,26 @@
+# Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# Editores e IDEs
+.vscode/
+.idea/
+*.swp
+
+# Archivos del sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Secretos y datos del usuario: NUNCA commitear.
+# secret.key es la clave Fernet que descifra los DNI.
+# usersFile.json tiene los emails y los hash de las contrasenas.
+secret.key
+*.key
+usersFile.json
