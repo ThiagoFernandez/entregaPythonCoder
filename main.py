@@ -4,6 +4,7 @@ import random
 import hashlib
 import smtplib
 import getpass  # Cambiado de pwinput a getpass
+import secrets
 
 from datetime import datetime, timedelta
 from email.message import EmailMessage
@@ -79,7 +80,7 @@ def sendEmail(subject: str, body: str, to_email: str) -> None:
             smtp.login("todolistwithpy@gmail.com", "fqyd atpz bqdn fflg")
             smtp.send_message(msg)
 
-def input_valid_email() ->str: 
+def input_valid_email() ->str:
     """Ask for a valid email."""
     while True:
         try:
@@ -90,8 +91,10 @@ def input_valid_email() ->str:
 
 
 def verify_email_code(email: str) -> bool:
-    code = random.randint(1000, 9999)
-    sendEmail("Confirmation code", f"Your code: {code}", email)
+    code = secrets.randbelow(9999)
+    if code < 1000:
+        code += 1000
+    sendEmail("Confirmation code", f"Your code: {code}", email) # igual pongo el code aca para q se vea pero el standar es q no se vea el codigo
 
     start = datetime.now()
     try:
@@ -156,34 +159,38 @@ def validate_password() ->str:
 
 def userRegister()  -> User:
     """Register a new user."""
-    username = validate_username()
+    while True:
+        username = validate_username()
 
-    password_hash = validate_password() 
+        password_hash = validate_password()
 
-    email = input_valid_email()
-    if not verify_email_code(email):
-        print("Email verification failed")
+        email = input_valid_email()
+        if not verify_email_code(email):
+            print("Email verification failed")
 
-    encrypted_dni = validate_dni()
+        else:
+            encrypted_dni = validate_dni()
 
-    user = manager.create_user(
-        username=username,
-        password_hash=password_hash,
-        email=email,
-        encrypted_dni=encrypted_dni,
-        phrases=[
-            "Session closed successfully.",
-            "See you next time!",
-            "Exiting without errors. Impressive.",
-            "Take care and come back soon!",
-            "The program rests now. Gently.",
-            "Clean exit. Very professional of you.",
-            "I'll miss you (a little)."
-        ]
-    )
+            user = manager.create_user(
+                username=username,
+                password_hash=password_hash,
+                email=email,
+                encrypted_dni=encrypted_dni,
+                phrases=[
+                    "Session closed successfully.",
+                    "See you next time!",
+                    "Exiting without errors. Impressive.",
+                    "Take care and come back soon!",
+                    "The program rests now. Gently.",
+                    "Clean exit. Very professional of you.",
+                    "I'll miss you (a little)."
+                ]
+            )
+            break
 
     saveFile("usersFile", usersFile)
     return user
+
 
 # ================= LOGIN =================
 
@@ -244,12 +251,12 @@ def userLogin() ->User | None:
         return None
 
     elif option == 2:
-        # Nota: Aquí faltaba definir 'user' antes de usar user.email. 
+        # Nota: Aquí faltaba definir 'user' antes de usar user.email.
         # Asegúrate de que manager tenga un método para buscar el usuario por nombre.
         user_data = manager.users_data.get(username)
         if not user_data:
              return None
-             
+
         email = input_valid_email()
 
         if email != user_data.get("email"):
@@ -259,11 +266,11 @@ def userLogin() ->User | None:
         if verify_email_code(email):
             plain_pwd = input_new_password_plain()
             # Asumiendo que necesitas cargar el objeto User primero
-            user_obj = manager.get_user(username) 
+            user_obj = manager.get_user(username)
             user_obj.change_password(plain_pwd)
             manager.save_user(user_obj)
             saveFile("usersFile", usersFile)
-    
+
 # ================= PHRASES =================
 
 def managePhrasesMenu(user: User) -> None:
